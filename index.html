@@ -348,6 +348,22 @@ function val(){const z=+sel.vz,vl=VL[z-1],a=vl[Math.min(+sel.vv,vl.length-1)],y=
  return{S:[ov,ex,...R.S],sc:n=>n==0?A(210,150,s,{c:OR,l:y})+mk(`যোজনী ${vl.join(", ")}`,210,285,13):R.sc(Math.max(0,n-2))}}
 TABS.push({tab:"যোজনী",sum:()=>`<b>যোজনী :</b> একটি পরমাণু কয়টি ইলেকট্রন ত্যাগ/গ্রহণ/শেয়ার করে তার সংখ্যা। ১–৬০ থেকে মৌল বাছো; একাধিক যোজনী থাকলে বাটনে বেছে দেখো কোন যোজনীতে কোন যৌগ হয়, বন্ধন কীভাবে গঠিত হয় এবং কে অষ্টক বা দুইয়ের নিয়ম মানে।`,steps:()=>val().S,scene:()=>val().sc(n),
  ctl:()=>MINE("মৌল ও যোজনী")+`<div class="cust"><label>মৌল${eo("vz",+sel.vz)}</label></div>`+(VL[sel.vz-1].length>1?sl("vv",VL[sel.vz-1],sel.vv,v=>"যোজনী "+v):""),extra:()=>CMP});
+/* অষ্টক/দুইয়ের নিয়মের পরীক্ষা */
+CV.Be=[2,1.5];
+const TPS=[["C",4,"H",1],["N",3,"H",1],["C",4,"O",2],["H",1,"H",1],["Be",2,"Cl",1],["B",3,"F",1],["P",5,"Cl",1],["S",6,"F",1],["Na",1,"Cl",1],["Li",1,"F",1],["Mg",2,"O",2]];
+const rowL=(s,c)=>`${s} : চারপাশে ${c}টি (${c%2?"বিজোড়":c/2+" জোড়া"}) → `+(c==8?"অষ্টক ✓ (দুইয়ের নিয়মও: ৪ জোড়া)":c==2?"দুইয়ের নিয়ম ✓ (১ জোড়া); অষ্টক ✗":c%2==0&&c>0?`দুইয়ের নিয়ম ✓ (${c/2} জোড়া); অষ্টক ✗ (${c<8?"সংকোচন":"সম্প্রসারণ"})`:"কোনোটিই ✗");
+function tst(){const za=+sel.ta,zb=+sel.tb,va=VL[za-1][Math.min(+sel.tai,VL[za-1].length-1)],vb=VL[zb-1][Math.min(+sel.tbi,VL[zb-1].length-1)],A_=EL[za-1],B_=EL[zb-1],ca=cls(za),cb=cls(zb),hal=["Cl","Br","I"],bec=(za==4&&hal.includes(B_))||(zb==4&&hal.includes(A_)),P=PR(za,va,zb,vb);let rows,sc,f,ty;
+ if(nobl(za)||nobl(zb)||(ca=="m"&&cb=="m")&&!bec)return P;
+ if((ca=="m"||cb=="m")&&!bec){const mz=ca=="m"?za:zb,mv=ca=="m"?va:vb,X=ca=="m"?B_:A_;if(!AN[X])return P;const c={s:EL[mz-1],z:mz,a:mv},x=mkA(X),R=lose(mz,mv);f=fI2(c,x).f;ty="আয়নিক";rows=[[c.s+ch(mv,"⁺"),R.at(-1)],[X+ch(x.b,"⁻"),X=="H"?2:8]];sc=n=>scI2(c,x,n?2:0)}
+ else{const M=mol2(A_,va,B_,vb);if(!M)return P;f=M.nm;ty="সমযোজী";rows=M.a.map((u,i)=>[u.s,CV[u.s][0]+M.b.filter(k=>k[0]==i||k[1]==i).reduce((s,k)=>s+k[2],0)]);sc=n=>scC2(M,n?3:0)}
+ const oct=rows.filter(r=>r[1]==8).map(r=>r[0]),du2=rows.filter(r=>r[1]==2).map(r=>r[0]),pr=rows.filter(r=>r[1]%2==0&&r[1]>0).map(r=>r[0]),odd=rows.some(r=>r[1]%2),non=rows.filter(r=>r[1]!=8&&r[1]!=2);
+ const V=odd?"কোনোটিই পুরো মানে না (বিজোড় ইলেকট্রন)":!non.length?(oct.length&&du2.length?"✔ দুটোই : অষ্টক ও দুইয়ের নিয়ম (ভিন্ন ভিন্ন পরমাণু)":oct.length?"✔ অষ্টক নিয়ম (সবাই ৮; জোড়া হিসেবে দুইয়ের নিয়মও)":"✔ দুইয়ের নিয়ম"):`অষ্টক নিয়ম ব্যতিক্রম (${non.map(r=>r[0]).join(", ")}); দুইয়ের নিয়ম ✔ (সব পরমাণুতে জোড়া আছে)`+(oct.length?"\nতবে "+oct.join(", ")+" অষ্টক মানে":"");
+ return{S:[{t:"যৌগ ও বন্ধন",m:`${f} : ${ty} বন্ধন`+(bec?"\n(পাঠ্য অনুযায়ী BeCl₂ সমযোজী)":""),c:"যোজনী বদলালে বা মৌল বদলালে যৌগ বদলে যায়।",y:"আগে যৌগটা বানাও, তারপর নিয়ম যাচাই।",st:f+" — "+ty},
+ {t:"পরমাণু/আয়ন ধরে ইলেকট্রন গোনো",m:rows.map(r=>rowL(r[0],r[1])).join("\n"),c:"অষ্টক = শেষ কক্ষে ৮টি। দুইয়ের নিয়ম = শেষ কক্ষে এক বা একাধিক জোড়া (H-এ ২টি, Be-এ ৪টি)। সমযোজীতে চারপাশের সংখ্যা = নিজের যোজ্যতা + শেয়ারকৃত; আয়নিকে আয়নের শেষ কক্ষ।",y:"ছবির সবুজ ঘেরে (বা আয়নের কক্ষে) গোনো।",st:"ইলেকট্রন গোনা"},
+ {t:"ফল",m:`${f} : ${V}`,c:"অষ্টক ব্যতিক্রম : সংকোচন (BF₃, BeCl₂) ও সম্প্রসারণ (PCl₅, SF₆)।",y:"CH₄-এ C অষ্টক, H দুইয়ের নিয়ম — তাই দুটোই চলে।",st:V.split("\n")[0]}],sc}}
+TABS.push({tab:"অষ্টক/দুই এর নিয়মের পরীক্ষা",sum:()=>`<b>পরীক্ষা :</b> ১–৬০ থেকে যেকোনো দুটি মৌল ও যোজনী বেছে নিজের যৌগ বানাও; দেখাবে প্রতিটি পরমাণু/আয়ন অষ্টক, দুইয়ের নিয়ম, নাকি দুটোই মানছে। নিচে পরিচিত যৌগের বাটন আছে।`,steps:()=>tst().S,scene:()=>tst().sc(n),
+ ctl:()=>MINE("যৌগ বানিয়ে পরীক্ষা করো")+`<div class="cust"><label>মৌল ১${eo("ta",+sel.ta)}</label><label>যোজনী${vo("tai",+sel.ta,sel.tai)}</label><label>মৌল ২${eo("tb",+sel.tb)}</label><label>যোজনী${vo("tbi",+sel.tb,sel.tbi)}</label></div>`+TPS.map((t,i)=>`<button data-k="tp" data-v="${i}">${t[0]}–${t[2]}</button>`).join(""),extra:()=>`<details class="card ex" open><summary>কে কী মানে — এক নজরে</summary><table><tr><th>যৌগ</th><th>কেন্দ্রীয়/অন্য</th><th>ফল</th></tr><tr><td>CH₄</td><td>C = ৮, H = ২</td><td>দুটোই</td></tr><tr><td>BeCl₂</td><td>Be = ৪, Cl = ৮</td><td>Be দুই (২ জোড়া), Cl অষ্টক</td></tr><tr><td>BF₃</td><td>B = ৬</td><td>অষ্টক সংকোচন</td></tr><tr><td>PCl₅ / SF₆</td><td>P = ১০, S = ১২</td><td>অষ্টক সম্প্রসারণ</td></tr><tr><td>LiF</td><td>Li⁺ = ২, F⁻ = ৮</td><td>দুটোই</td></tr></table></details>`});
+Object.assign(sel,{ta:6,tai:0,tb:1,tbi:0});sel.ta=6;sel.tb=1;
 DS.push(...[["CaCO₃",0,"Ca²⁺","CO₃²⁻","ক্যালসিয়াম কার্বোনেট (মার্বেল)"],["BaSO₄",0,"Ba²⁺","SO₄²⁻","বেরিয়াম সালফেট"],["Fe(OH)₃",0,"Fe³⁺","OH⁻","আয়রন(III) হাইড্রক্সাইড"],["NaOH",1,"Na⁺","OH⁻","কষ্টিক সোডা"],["KNO₃",1,"K⁺","NO₃⁻","পটাশিয়াম নাইট্রেট"],["(NH₄)₂SO₄",1,"NH₄⁺","SO₄²⁻","অ্যামোনিয়াম সালফেট"],["CuSO₄",1,"Cu²⁺","SO₄²⁻","কপার সালফেট"]].map(([n,s,c,a,nm])=>({n,k:"i",s,c,a,nm})));
 
 let k=0,n=0;
@@ -368,7 +384,7 @@ addEventListener("keydown",e=>{if(e.target.tagName=="SELECT")return;if(e.key=="A
 if(typeof ResizeObserver!="undefined"){const sk=document.querySelector(".stick");new ResizeObserver(()=>document.documentElement.style.setProperty("--stick-h",sk.offsetHeight+"px")).observe(sk)}
 if(matchMedia("(max-width:820px)").matches)document.querySelector("details.how").open=false;
 
-$("ctl").onclick=e=>{const b=e.target.closest("button");if(!b||b.dataset.k==null)return;const q=b.dataset.k,v=b.dataset.v;if(q=="ip"){const t=IPS[v];sel.cm=t[0];sel.vi=t[1];sel.xm=t[2]}else if(["c","d","o","vv"].includes(q))sel[q]=+v;else sel[q]=v;n=0;render()};
+$("ctl").onclick=e=>{const b=e.target.closest("button");if(!b||b.dataset.k==null)return;const q=b.dataset.k,v=b.dataset.v;if(q=="tp"){const t=TPS[v];sel.ta=Z(t[0]);sel.tai=VL[sel.ta-1].indexOf(t[1]);sel.tb=Z(t[2]);sel.tbi=VL[sel.tb-1].indexOf(t[3])}else if(q=="ip"){const t=IPS[v];sel.cm=t[0];sel.vi=t[1];sel.xm=t[2]}else if(["c","d","o","vv"].includes(q))sel[q]=+v;else sel[q]=v;n=0;render()};
 $("ctl").onchange=e=>{const s=e.target.closest("select");if(!s)return;const q=s.dataset.k;sel[q]=q=="o"?+s.value:s.value;if(q=="X"||q=="Y")sel.c=PC.length;if(q=="cm")sel.vi=0;if(q=="pa")sel.pai=0;if(q=="pb")sel.pbi=0;if(q=="vz")sel.vv=0;n=0;render()};
 render();
 </script>
