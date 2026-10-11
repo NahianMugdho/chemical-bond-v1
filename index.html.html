@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>রাসায়নিক বন্ধন ল্যাব — অষ্টক, আয়নিক, সমযোজী, ধাতব, দ্রাব্যতা</title>
+<title>রাসায়নিক বন্ধন ল্যাব — ১–৬০ মৌল</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#0c3b46;--navy2:#14707f;--bg:#e8f1f2;--card:#fff;--ink:#16303a;--line:#cfe0e3;--acc:#e8742a;--mint:#5dff9a;--code:#0b1e26;box-sizing:border-box;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
@@ -83,13 +83,13 @@ table{display:block;overflow-x:auto}}
 <footer>Created by Al Nahian Mugdho</footer>
 <script>
 /* রাসায়নিক বন্ধন ল্যাব — গঠন: ডেটা → প্রতি ট্যাবের steps() ও scene() → ইঞ্জিন (render) */
-const $=i=>document.getElementById(i),bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]),sb=n=>n>1?String(n).replace(/\d/g,d=>"₀₁₂₃₄₅₆₇₈₉"[d]):"",ch=(a,s)=>(a>1?"²³"[a-2]:"")+s,gcd=(a,b)=>b?gcd(b,a%b):a;
+const $=i=>document.getElementById(i),bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]),sb=n=>n>1?String(n).replace(/\d/g,d=>"₀₁₂₃₄₅₆₇₈₉"[d]):"",ch=(a,s)=>(a>1?"²³⁴⁵⁶⁷⁸"[a-2]:"")+s,gcd=(a,b)=>b?gcd(b,a%b):a;
 const OR="#e8742a",BL="#2f6fde",GY="#6b7a80",TL="#14707f";
-const EL="H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca".split(" ");
+const EL="H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd".split(" ");
 const BNM="হাইড্রোজেন হিলিয়াম লিথিয়াম বেরিলিয়াম বোরন কার্বন নাইট্রোজেন অক্সিজেন ফ্লুরিন নিয়ন সোডিয়াম ম্যাগনেসিয়াম অ্যালুমিনিয়াম সিলিকন ফসফরাস সালফার ক্লোরিন আর্গন পটাশিয়াম ক্যালসিয়াম".split(" ");
-const NG={2:"He",10:"Ne",18:"Ar"};
-const sh=z=>{const r=[];for(const c of[2,8,8,2]){if(z<=0)break;r.push(Math.min(z,c));z-=c}return r};
-const Z=s=>EL.indexOf(s)+1,V=s=>{const a=sh(Z(s));return a[a.length-1]};
+const NG={2:"He",10:"Ne",18:"Ar",36:"Kr",54:"Xe"};const XC={24:[2,8,13,1],29:[2,8,18,1],41:[2,8,18,12,1],42:[2,8,18,13,1],44:[2,8,18,15,1],45:[2,8,18,16,1],46:[2,8,18,18],47:[2,8,18,18,1],57:[2,8,18,18,9,2],58:[2,8,18,19,9,2],59:[2,8,18,21,8,2],60:[2,8,18,22,8,2]},OB=[[1,2],[2,2],[2,6],[3,2],[3,6],[4,2],[3,10],[4,6],[5,2],[4,10],[5,6],[6,2],[4,14],[5,10]];
+const sh=z=>{if(XC[z])return XC[z];const r=[];for(const[n,c]of OB){if(z<=0)break;const t=Math.min(z,c);r[n-1]=(r[n-1]||0)+t;z-=t}return r};
+const Z=s=>EL.indexOf(s)+1,V=s=>VL[Z(s)-1][0];
 let sel={o:11,m:"Na",x:"Cl",c:5,X:"C",Y:"H",l:"Na",d:0};
 const mk=(l,x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" font-size="${s||12}" font-weight="700" fill="#16303a">${l}</text>`;
 const dot=(x,y,c)=>`<circle cx="${x}" cy="${y}" r="3.5" fill="${c}"/>`;
@@ -109,7 +109,7 @@ function oc(z){const s=sh(z),v=s.at(-1),y=EL[z-1];
  if(v<=3){const r=s.slice(0,-1);return{k:"l",v,s,y,res:r,ng:NG[r.reduce((a,b)=>a+b,0)],lab:y+ch(v,"⁺")}}
  if(v>=5){const b=8-v;return{k:"g",v,s,y,res:[...s.slice(0,-1),8],b,ng:NG[z+b],lab:y+ch(b,"⁻")}}
  return{k:"c",v,s,y,res:s,ex:4,ng:NG[z+4],lab:"৪টি শেয়ার"}}
-function stO(z){const o=oc(z),{s,v,y}=o,g=o.ng=="He"?"২টি (দ্বিত্ব)":"৮টি (অষ্টক)";
+function stO0(z){const o=oc(z),{s,v,y}=o,g=o.ng=="He"?"২টি (দ্বিত্ব)":"৮টি (অষ্টক)";
  const how={s:["আগে থেকেই স্থিতিশীল",`${y} নিষ্ক্রিয় গ্যাস — ইলেকট্রন দেয়ও না, নেয়ও না।`,"নিষ্ক্রিয় গ্যাস কারো সাথে বিক্রিয়া করে না, কারণ তার শেষ কক্ষ আগেই পূর্ণ।"],
  l:[`${v}টি ইলেকট্রন ত্যাগ`,`${y} → ${y}${ch(v,"⁺")} + ${v>1?v:""}e⁻\nক্যাটায়ন বিন্যাস : ${o.res.join(", ")} (${o.ng}-এর মতো)`,"কম ইলেকট্রন থাকলে ত্যাগ করা সহজ — ত্যাগ করলে নিচের পূর্ণ কক্ষই শেষ কক্ষ হয়ে যায়।"],
  g:[`${o.b}টি ইলেকট্রন গ্রহণ`,`${y} + ${o.b>1?o.b:""}e⁻ → ${y}${ch(o.b,"⁻")}\nঅ্যানায়ন বিন্যাস : ${o.res.join(", ")} (${o.ng}-এর মতো)`,"৮ থেকে অল্প কম ইলেকট্রন থাকলে গ্রহণ করে অষ্টক পূরণ করা সহজ।"],
@@ -192,7 +192,7 @@ function scC(M,n){const{a,b}=M,N=a.length,col=i=>i?BL:OR,
 
 /* ---------- ৫) ধাতব বন্ধন ---------- */
 const MM=["Li","Na","K","Mg","Ca","Al"];
-function stM(m){const a=V(m),mm=m+ch(a,"⁺");
+function stM0(m){const a=V(m),mm=m+ch(a,"⁺");
  return[{t:"ধাতুর পরমাণু",m:`${m} : ${sh(Z(m)).join(", ")}\nযোজ্যতা ইলেকট্রন = ${a}টি, নিউক্লিয়াস থেকে দূরে`,c:"শেষ কক্ষের ইলেকট্রন দুর্বলভাবে আটকানো। ধাতুর পরমাণু ইলেকট্রন ত্যাগ করতে চায়।",y:"প্রতিটি পরমাণুর বাইরের ইলেকট্রন সহজেই আলগা হয়ে যেতে পারে।",st:m+" ধাতুর পরমাণুগুলো"},
  {t:"ইলেকট্রন ছেড়ে দেয়",m:`${m} → ${mm} + ${a>1?a:""}e⁻`,c:"ধনাত্মক আয়নকে পারমাণবিক শাঁস, ছাড়া ইলেকট্রনকে সঞ্চরণশীল ইলেকট্রন বলে।",y:"নীল বিন্দুগুলো কোনো একটি পরমাণুর নয় — সবার।",st:"শাঁস + সঞ্চরণশীল ইলেকট্রন"},
  {t:"ধাতব বন্ধন",m:`ধনাত্মক শাঁস ⇄ ইলেকট্রন সাগর\nএই আকর্ষণই = ধাতব বন্ধন`,c:"একই ধাতুর পরমাণুগুলো যে আকর্ষণ বল দ্বারা যুক্ত থাকে, তাই ধাতব বন্ধন।",y:"ইলেকট্রনের সাগর ধনাত্মক আয়নগুলোকে আঠার মতো ধরে রাখে।",st:"ধাতব বন্ধন গঠিত"},
@@ -243,6 +243,113 @@ const TABS=[
 {tab:"সমযোজী বন্ধন",sum:()=>`<b>ঘটনাটা কী?</b> দুই অধাতু ইলেকট্রন ভাগাভাগি করে স্থিতিশীল বিন্যাস পায়। একক, দ্বি ও ত্রি বন্ধন দেখো। নিচে নিজের কেন্দ্রীয় ও পার্শ্ব পরমাণু বেছে নতুন অণু বানাও।`,steps:()=>stC(curM()),scene:()=>scC(curM(),n),ctl:()=>`<button class="mine" style="pointer-events:none">✏️ নিজে করো — কেন্দ্রীয় ও পার্শ্ব পরমাণু</button><div class="cust">${sel_("কেন্দ্রীয়",["C","N","O","Si","P","S"],"X")}${sel_("পার্শ্ব",["H","F","Cl"],"Y")}</div>`+sl("c",PC,sel.c,v=>v[0]),extra:()=>CMP},
 {tab:"ধাতব বন্ধন",sum:()=>`<b>ঘটনাটা কী?</b> ধাতুর পরমাণু ইলেকট্রন ছেড়ে ধনাত্মক শাঁস হয়; ছাড়া ইলেকট্রন সবার মাঝে ঘোরে। এই আকর্ষণই ধাতব বন্ধন, যার কারণে ধাতু বিদ্যুৎ-তাপ পরিবহন করে ও পেটানো যায়।`,steps:()=>stM(sel.l),scene:()=>scM(sel.l,n),ctl:()=>`<button class="mine" style="pointer-events:none">✏️ নিজে করো — ধাতু বেছে নাও</button>`+MM.map(e=>`<button class="${sel.l==e?"on":""}" data-k="l" data-v="${e}">${e}</button>`).join(""),extra:()=>""},
 {tab:"দ্রবণীয়/অদ্রবণীয়",sum:()=>`<b>ঘটনাটা কী?</b> পানির অণু পোলার। যে যৌগে ধনাত্মক-ঋণাত্মক প্রান্ত আছে, পানি তাকে টেনে নিয়ে দ্রবীভূত করে। যৌগ বদলে দেখো কোনটি মেশে, কোনটি মেশে না।`,steps:()=>stS(DS[sel.d]),scene:()=>scS(DS[sel.d],n),ctl:()=>`<button class="mine" style="pointer-events:none">✏️ নিজে করো — যৌগ বাছো</button>`+sl("d",DS,sel.d,v=>v.n),extra:()=>CMP}];
+/* ===== আপডেট: ১–৬০ মৌল, যৌগমূলক, বন্ধন প্র্যাক্টিস, যোজনী ===== */
+const VL="1|0|1|2|3|4,2|3,5|2|1|0|1|2|3|4|3,5|2,4,6|1,3,5,7|0|1|2|3|4,3,2|5,4,3,2|3,6,2|2,4,7|2,3|2,3|2|1,2|2|3|4,2|3,5|2,4,6|1,3,5,7|0|1|2|3|4|5,3|6,4|7,4|3,4,8|3|2,4|1|2|3|2,4|3,5|2,4,6|1,3,5,7|0|1|2|3|3,4|3|3".split("|").map(s=>s.split(",").map(Number));
+const NMS=new Set([1,2,6,7,8,9,10,15,16,17,18,34,35,36,53,54]),MDS=new Set([5,14,32,33,51,52]);
+const cls=z=>NMS.has(z)?"n":MDS.has(z)?"d":"m",nobl=z=>!!NG[z];
+const lose=(z,a)=>{const r=[...sh(z)];let t=a;for(let i=r.length-1;i>=0&&t>0;i--){const d=Math.min(t,r[i]);r[i]-=d;t-=d}return r.filter(c=>c>0)};
+const NGn=r=>NG[r.reduce((x,c)=>x+c,0)];
+const EXM={6:"CO (২), CO₂ (৪)",7:"NH₃ (৩), N₂O₅ (৫)",15:"PH₃ (৩), PF₅ (৫)",16:"H₂S (২), SF₄ (৪), SF₆ (৬)",17:"HCl (১), ClF₃ (৩), ClF₅ (৫), Cl₂O₇ (৭)",24:"CrCl₃ (৩), CrO₃ (৬)",25:"MnCl₂ (২), MnO₂ (৪), Mn₂O₇ (৭)",26:"FeCl₂ (২), FeCl₃ (৩)",27:"CoCl₂ (২), Co₂O₃ (৩)",29:"Cu₂O (১), CuO (২)",34:"H₂Se (২), SeF₄ (৪), SeF₆ (৬)",35:"HBr (১), BrF₃ (৩), BrF₅ (৫)",50:"SnCl₂ (২), SnO₂ (৪)",53:"HI (১), IF₃ (৩), IF₅ (৫), IF₇ (৭)"};
+const vrs=z=>cls(z)=="m"?(z>=21&&z<=30||z>=39&&z<=48||z>=57?"d/f-ব্লক : s ছাড়াও ভেতরের d/f ইলেকট্রন ত্যাগ করা যায়":"কম যোজনীতে ns² জোড়া থেকে যায়, বেশিতে জোড়াও ত্যাগ করে"):z<=10?"প্রথম/দ্বিতীয় পর্যায়ে d-অরবিটাল নেই; বেশি যোজনী আসলে জারণ অবস্থা":"৩য়+ শক্তিস্তরে d-অরবিটাল আছে; জোড়া ইলেকট্রন ভেঙে (উত্তেজিত অবস্থা) বেশি বন্ধন গড়ে, অষ্টক সম্প্রসারণ ঘটে";
+const MULT=z=>VL[z-1].length>1?` ⚠ একাধিক যোজনী (${VL[z-1].join(", ")}): ${EXM[z]?EXM[z]+"। ":""}${vrs(z)}।`:"";
+function oc(z){const s=sh(z),y=EL[z-1],v=s.at(-1);
+ if(NG[z])return{k:"s",v,s,y,res:s,ng:NG[z]};
+ if(z==1)return{k:"c",v,s,y,res:s,ex:1,ng:"He",lab:"১টি শেয়ার"};
+ if(z==5)return{k:"b",v,s,y,res:s,ex:3,ng:"",lab:"৩টি শেয়ার (৬টি ইলেকট্রন)"};
+ if(cls(z)=="m"){const a=VL[z-1][0],R=lose(z,a);return{k:"l",v:a,s,y,res:R,ng:NGn(R),lab:y+ch(a,"⁺")}}
+ if(v>=5){const b=8-v;return{k:"g",v,s,y,res:[...s.slice(0,-1),8],b,ng:NG[z+b],lab:y+ch(b,"⁻")}}
+ return{k:"c",v,s,y,res:s,ex:8-v,ng:NG[z+8-v],lab:(8-v)+"টি শেয়ার"}}
+function stO(z){const S=stO0(z),s=sh(z),vl=VL[z-1];
+ if(cls(z)=="m")S[0].m=S[0].m.replace(/যোজ্যতা ইলেকট্রন = \S+/,`শেষ কক্ষে ${s.at(-1)}টি; যোজনী = ${vl.join(", ")}`);
+ S[0].c+=MULT(z);S.forEach(x=>{x.m=x.m.replace("(undefined-এর মতো)","(d/f-ব্লক : অষ্টক পুরো মানে না)").replace("সমান বিন্যাস : undefined","d/f-ব্লক : অষ্টক পুরো মানে না")});return S}
+function stM(m){const S=stM0(m),z=Z(m),a=V(m);S[0].m=`${m} : ${sh(z).join(", ")}\nশেষ কক্ষে ${sh(z).at(-1)}টি; ত্যাগযোগ্য (যোজনী) = ${a}টি`;S[0].c+=MULT(z);return S}
+/* যৌগমূলক ও আয়ন */
+const PY=[["OH",1],["NO₃",1],["NO₂",1],["HCO₃",1],["CO₃",2],["SO₄",2],["SO₃",2],["HSO₄",1],["PO₄",3],["HPO₄",2],["CN",1],["CH₃COO",1],["MnO₄",1],["CrO₄",2],["Cr₂O₇",2],["ClO₃",1]];
+const AN={H:1,F:1,Cl:1,Br:1,I:1,O:2,S:2,Se:2,Te:2,N:3,P:3};
+const MET=EL.filter((_,i)=>cls(i+1)=="m"),catO=MET.concat("NH₄"),anO=Object.keys(AN).concat(PY.map(p=>p[0]));
+const mkC=(s,vi)=>s=="NH₄"?{s,a:1,poly:1}:{s,z:Z(s),a:VL[Z(s)-1][Math.min(+vi||0,VL[Z(s)-1].length-1)]};
+const mkA=s=>AN[s]?{s,b:AN[s],z:Z(s)}:{s,b:PY.find(p=>p[0]==s)[1],poly:1};
+const par=(s,n,p)=>n>1?(p?"("+s+")":s)+sb(n):s;
+const fI2=(c,x)=>{const g=gcd(c.a,x.b);return{p:x.b/g,q:c.a/g,f:par(c.s,x.b/g,c.poly)+par(x.s,c.a/g,x.poly)}};
+const rlI=(c,x)=>{const ci=c.s+ch(c.a,"⁺"),xi=x.s+ch(x.b,"⁻");let L=[];
+ if(c.poly)L.push(`${ci} (যৌগমূলক) : ভেতরে সমযোজী বন্ধন, প্রতিটি পরমাণু অষ্টক/দুই নিয়ম মানে`);else{const R=lose(c.z,c.a),ng=NGn(R);L.push(R.length==1&&R[0]==2?`${ci} : ২টি ইলেকট্রন → দুইয়ের নিয়ম (He-এর মতো)`:ng?`${ci} : ৮টি ইলেকট্রন → অষ্টক (${ng}-এর মতো)`:`${ci} : শেষ কক্ষে ${R.at(-1)}টি → অষ্টক মানে না (d/f-ব্লক বা ইনার-পেয়ার)`)}
+ L.push(x.poly?`${xi} (যৌগমূলক) : ভেতরে সমযোজী বন্ধন, প্রতিটি পরমাণু অষ্টক/দুই নিয়ম মানে`:x.s=="H"?`${xi} : ২টি → দুইয়ের নিয়ম (He-এর মতো)`:`${xi} : ৮টি → অষ্টক (${NG[x.z+x.b]}-এর মতো)`);
+ return{t:"কে কোন নিয়ম মানে?",m:L.join("\n"),c:"অষ্টক = ৮টি, দুইয়ের নিয়ম = ২টি। d-ব্লক ধাতু ও ইনার-পেয়ার ধাতু অষ্টক পুরো মানে না।",y:"আয়ন হওয়ার পর দেখো কার শেষ কক্ষে কয়টি ইলেকট্রন।",st:"নিয়ম যাচাই"}};
+function stI2(c,x){const{p,q,f}=fI2(c,x),a=c.a,b=x.b,ci=c.s+ch(a,"⁺"),xi=x.s+ch(b,"⁻"),R=c.poly?[]:lose(c.z,a),ng=NGn(R),xs=x.poly?[]:sh(x.z).map((v,i,A)=>i==A.length-1?v+b:v);
+ return[{t:"আয়ন দুটির বিন্যাস",m:(c.poly?`${c.s}⁺ : ধনাত্মক যৌগমূলক (পরমাণুগুচ্ছ)`:`${c.s} : ${sh(c.z).join(", ")} (যোজনী ${a}${VL[c.z-1].length>1?" — সম্ভাব্য "+VL[c.z-1].join(", "):""})`)+"\n"+(x.poly?`${x.s}${ch(b,"⁻")} : ঋণাত্মক যৌগমূলক (পরমাণুগুচ্ছ)`:`${x.s} : ${sh(x.z).join(", ")} (লাগবে ${b}টি)`),c:"ধাতু (বা ধনাত্মক যৌগমূলক) ক্যাটায়ন, অধাতু (বা ঋণাত্মক যৌগমূলক) অ্যানায়ন হয়।"+(c.poly?"":MULT(c.z))+(c.s=="Al"?" (Al ১৩ নং গ্রুপের হয়েও আয়নিক বন্ধন গড়ে — ব্যতিক্রম।)":""),y:"কমলা = ধাতুর ইলেকট্রন, নীল = অধাতুর ইলেকট্রন।",st:"ধাতু + অধাতু"},
+ {t:"ক্যাটায়ন গঠন",m:c.poly?`${c.s}⁺ আগে থেকেই আয়ন — আলাদা ইলেকট্রন ত্যাগ লাগে না`:`${c.s} → ${ci} + ${a>1?a:""}e⁻\nবিন্যাস : ${R.join(", ")} ${ng?"("+ng+"-এর মতো)":"(d/f-ব্লক : অষ্টক পুরো মানে না)"}`,c:"ইলেকট্রন ত্যাগ করে ক্যাটায়ন (ধনাত্মক আয়ন) হয়।",y:"কমলা ইলেকট্রনগুলো অধাতুর দিকে ছুটছে।",st:"ক্যাটায়ন : "+ci},
+ {t:"অ্যানায়ন গঠন",m:x.poly?`${x.s} যৌগমূলক ${b}টি ইলেকট্রন গ্রহণ করে ${xi}\n(ভেতরে সমযোজী বন্ধন, বাইরে ঋণাত্মক আধান)`:`${x.s} + ${b>1?b:""}e⁻ → ${xi}\nবিন্যাস : ${xs.join(", ")} (${NG[x.z+b]}-এর মতো)`,c:"ইলেকট্রন গ্রহণ করে অ্যানায়ন (ঋণাত্মক আয়ন) হয়।",y:"কমলা ইলেকট্রন ঢুকে নীল পরমাণুর ফাঁকা জায়গা ভরেছে।",st:"অ্যানায়ন : "+xi},
+ {t:"আয়ন দুটি পরস্পরকে টানে",m:`${ci}  ⇄  ${xi}\nস্থির বৈদ্যুতিক আকর্ষণ বল = আয়নিক বন্ধন`,c:"বিপরীত চার্জের ক্যাটায়ন ও অ্যানায়ন স্থির বৈদ্যুতিক বলে যুক্ত থাকে।",y:"ধনাত্মক আর ঋণাত্মক আয়ন চুম্বকের মতো আটকে যায়।",st:"আয়নিক বন্ধন গঠিত"},
+ {t:"সংকেত ও কেলাস",m:`মোট ধনাত্মক = ${p}×${a} = ${p*a}, মোট ঋণাত্মক = ${q}×${b} = ${q*b}\nসংকেত : ${f}`,c:"আধান শূন্য হওয়ার সংখ্যায় আয়ন নেওয়া হয়। যৌগমূলক একাধিক হলে বন্ধনীতে লিখতে হয় (যেমন Ca(OH)₂)। অসংখ্য আয়ন কেলাস গড়ে; গলনাঙ্ক বেশি; কঠিনে বিদ্যুৎ পরিবহন করে না, গলিত/জলীয় দ্রবণে করে।",y:"আয়নিক যৌগ শক্ত, দানাদার, গলাতে অনেক তাপ লাগে।",st:"সংকেত : "+f},rlI(c,x)]}
+function scI2(c,x,n){const{p,q,f}=fI2(c,x),a=c.a,b=x.b;if(p>4||q>4)return mk(f,210,140,22)+mk("আয়নের সংখ্যা বেশি — ছবি আঁকা সীমিত, ধাপের সংখ্যাগুলো দেখো",210,185,11);
+ const ys=m=>Array.from({length:m},(_,i)=>153+(i-(m-1)/2)*(m>2?66:90)),MY=ys(p),XY=ys(q),ci=c.s+ch(a,"⁺"),xi=x.s+ch(b,"⁻"),tot=x.poly?b:x.s=="H"?2:8,own=tot-(x.poly?b:b),e0=c.poly?0:lose(c.z,a).at(-1),Rr=(X,Y,l,s)=>R(X,Y,l,s).replace('font-size="11"',l.length>4?'font-size="8"':'font-size="11"');let h="";
+ if(n>=4){for(let i=0;i<4;i++)for(let j=0;j<4;j++){const k=(i+j)%2==0;h+=`<circle cx="${150+i*40}" cy="${80+j*40}" r="${k?13:17}" fill="${k?OR:BL}" opacity=".9"/>`+mk(k?ci:xi,150+i*40,83+j*40,8).replace('#16303a','#fff')}return h+mk(f+" — আয়নিক কেলাস",210,270,14)}
+ const sl=(cx,cy,j,t)=>[cx+26*Math.cos(6.283*j/t+.3),cy+26*Math.sin(6.283*j/t+.3)];
+ if(n==3){MY.forEach(u=>XY.forEach(w=>h+=`<line x1="118" y1="${u}" x2="302" y2="${w}" stroke="${OR}" stroke-dasharray="5 4" stroke-width="1.6"/>`));h+=mk("আকর্ষণ",210,150,13)}
+ MY.forEach(u=>h+=Rr(100,u,n>=2?ci:c.s,c.poly?[]:n==0?Array(a).fill(OR):n==1?[]:Array(e0).fill(GY)));
+ XY.forEach(w=>h+=Rr(320,w,n>=2?xi:x.s,[...Array(tot-b).fill(BL),...Array(b).fill(n>=2?OR:null)]));
+ if(n==1&&!c.poly)for(let g=0;g<p*a;g++){const[sx,sy]=sl(100,MY[Math.floor(g/a)],g%a,a),[tx,ty]=sl(320,XY[Math.floor(g/b)],tot-b+g%b,tot);h+=`<circle cx="${sx}" cy="${sy}" r="3.8" fill="${OR}"><animateTransform attributeName="transform" type="translate" from="0 0" to="${tx-sx} ${ty-sy}" dur="2.2s" begin="${g*.18}s" repeatCount="indefinite"/></circle>`}
+ return h}
+/* সমযোজী: সাধারণ ইঞ্জিন */
+const ENm={H:2.1,B:2,C:2.5,N:3,O:3.5,F:4,Si:1.8,P:2.1,S:2.5,Cl:3,Ge:2,As:2,Se:2.4,Br:2.8,Sb:1.9,Te:2.1,I:2.5};
+Object.keys(ENm).forEach(s=>CV[s]=[sh(Z(s)).at(-1),ENm[s]]);
+const nv=s=>{const o=CV[s][0];return o<=4?o:8-o};
+const star=(X,Y,n,o)=>{const P=n<5?[[130,150],[290,150],[210,230],[210,70]].slice(0,n):Array.from({length:n},(_,i)=>[210+88*Math.sin(6.2832*i/n),150-88*Math.cos(6.2832*i/n)]);return{a:[{s:X,x:210,y:150},...P.map(u=>({s:Y,x:u[0],y:u[1]}))],b:P.map((_,i)=>[0,i+1,o])}};
+const mol2=(A,va,B,vb)=>{if(A==B)return"H N O F Cl Br I".split(" ").includes(A)?{nm:A+"₂",...di(A,A,nv(A))}:null;
+ const g=gcd(va,vb),x=vb/g,y=va/g;let X,Y,n,o;if(x==1){X=A;Y=B;n=y;o=va/y}else if(y==1){X=B;Y=A;n=x;o=vb/x}else return null;
+ if(o>3)return null;
+ return{nm:n==1?(Y=="H"?"H"+X:X+Y):Y=="H"&&["O","S","Se","Te"].includes(X)?"H"+sb(n)+X:X+Y+sb(n),...(n==1?di(X,Y,o):star(X,Y,n,o))}};
+function curM(){if(sel.c<PC.length)return{nm:PC[sel.c][0],...PC[sel.c][1]};return mol2(sel.X,nv(sel.X),sel.Y,1)}
+function scC2(M,n){const{a,b}=M,N=a.length,col=i=>i?BL:OR,F=i=>{if(N==2)return[(i?1:-1)*28,0];if(!i)return[0,0];const dx=a[i].x-a[0].x,dy=a[i].y-a[0].y,l=Math.hypot(dx,dy);return[dx/l*28,dy/l*28]},
+ ang=(i,j)=>Math.atan2(a[j].y-a[i].y,a[j].x-a[i].x),dd=(p,q)=>{const d=Math.abs(p-q)%6.2832;return d>3.1416?6.2832-d:d};let h="";
+ a.forEach((u,i)=>{const bs=b.filter(k=>k[0]==i||k[1]==i),as=bs.map(k=>ang(i,k[0]==i?k[1]:k[0])),tot=bs.reduce((s,k)=>s+k[2],0),pr=(CV[u.s][0]-tot)/2,ls=[];
+  for(let p=0;p<pr;p++){let best=0,bd=-1;for(let c=0;c<12;c++){const t=c*.5236,m=Math.min(9,...as.concat(ls).map(q=>dd(t,q)));if(m>bd+1e-6){bd=m;best=t}}ls.push(best)}
+  const[fx,fy]=F(i);let g=n==2?`<g><animateTransform attributeName="transform" type="translate" from="${fx} ${fy}" to="0 0" dur="1.2s" fill="freeze"/>`:`<g transform="translate(${n<2?fx:0} ${n<2?fy:0})">`;
+  g+=`<circle cx="${u.x}" cy="${u.y}" r="16" fill="${col(i)}" opacity=".22"/>`+mk(u.s,u.x,u.y+5,15);
+  ls.forEach(t=>{const cx=u.x+28*Math.cos(t),cy=u.y+28*Math.sin(t),px=-Math.sin(t)*4,py=Math.cos(t)*4;g+=dot(cx+px,cy+py,col(i))+dot(cx-px,cy-py,col(i))});
+  if(n<2)bs.forEach((k,q)=>{const t=as[q];for(let e=0;e<k[2];e++){const o=(e-(k[2]-1)/2)*9;g+=dot(u.x+28*Math.cos(t)-Math.sin(t)*o,u.y+28*Math.sin(t)+Math.cos(t)*o,col(i))}});
+  if(n>=3)g+=`<circle cx="${u.x}" cy="${u.y}" r="${N>3?33:38}" fill="none" stroke="#2ea36a" stroke-dasharray="4 3" stroke-width="1.8"/>`;h+=g+"</g>"});
+ if(n>=2){h+=`<g${n==2?' opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.2s" dur=".3s" fill="freeze"/':""}>`;
+  b.forEach(k=>{const p=a[k[0]],q=a[k[1]],mx=(p.x+q.x)/2,my=(p.y+q.y)/2,l=Math.hypot(q.x-p.x,q.y-p.y),ux=(q.x-p.x)/l,uy=(q.y-p.y)/l;
+   for(let e=0;e<k[2];e++){const o=(e-(k[2]-1)/2)*11,cx=mx-uy*o,cy=my+ux*o;h+=dot(cx-ux*4,cy-uy*4,OR)+dot(cx+ux*4,cy+uy*4,BL)}});h+="</g>"}
+ return h}
+const rlC=M=>({t:"কে কোন নিয়ম মানে?",m:M.a.map((u,i)=>{const B=M.b.filter(k=>k[0]==i||k[1]==i).reduce((s,k)=>s+k[2],0),c=CV[u.s][0]+B;return`${u.s} : চারপাশে ${c}টি → `+(u.s=="H"?(c==2?"দুইয়ের নিয়ম ✓":"—"):c==8?"অষ্টক ✓":c>8?"অষ্টক সম্প্রসারণ (৮-এর বেশি)":"অষ্টকের কম (ব্যতিক্রম)")}).join("\n"),c:"H ২টি (দুইয়ের নিয়ম), অন্যরা ৮টি (অষ্টক) চায়। ৩য় পর্যায় বা পরের S, P, Cl, Br, I ৮-এর বেশিও নিতে পারে; B ৬টিতে থামে (BF₃)।",y:"প্রতিটি মৌলের চারপাশের সংখ্যা দেখে নিয়ম বোঝা যায়।",st:"নিয়ম যাচাই"});
+/* প্র্যাক্টিস ইঞ্জিন : (মৌল ১, যোজনী ১, মৌল ২, যোজনী ২) → ধাপ + ছবি */
+const dsc=(za,zb)=>A(105,150,sh(za),{c:OR,l:EL[za-1]})+A(315,150,sh(zb),{c:BL,l:EL[zb-1]});
+function PR(za,va,zb,vb){const A_=EL[za-1],B_=EL[zb-1],ca=cls(za),cb=cls(zb),H=(st,m,c,y)=>({t:"বন্ধন হবে কি?",m,c,y,st}),no=(st,m,c)=>({S:[H(st,m,c,"এই জোড়ায় এই স্তরের কোনো সরল বন্ধন-ছবি নেই।")],sc:()=>dsc(za,zb)+mk("✗",210,155,26)});
+ if(nobl(za)||nobl(zb))return no("বন্ধন হয় না",`${nobl(za)?A_:B_} নিষ্ক্রিয় গ্যাস — শেষ কক্ষ আগেই পূর্ণ\n⇒ কোনো বন্ধন হয় না`,"নিষ্ক্রিয় গ্যাসের বিন্যাস স্থিতিশীল (He-এ ২, বাকিতে ৮), তাই আদান-প্রদান বা শেয়ার করে না। (Kr, Xe-এর কিছু F/O যৌগ পাঠ্যের বাইরে।)");
+ if(ca=="m"&&cb=="m")return{S:[H("ধাতব বন্ধন (সংকর)",`${A_} + ${B_} : দুটিই ধাতু\n⇒ আয়নিক/সমযোজী নয়; ধাতব বন্ধন`,"দুই ধাতু ইলেকট্রন আদান-প্রদান বা শেয়ার করে যৌগ গড়ে না; গলিয়ে মেশালে সংকর ধাতু (ধাতব বন্ধন) হয়।","ধাতু + ধাতু = মিশ্রণ/সংকর, যৌগ নয়।"),...stM(A_)],sc:n=>scM(A_,Math.max(0,n-1))};
+ if(ca=="m"||cb=="m"){const mz=ca=="m"?za:zb,mv=ca=="m"?va:vb,X=ca=="m"?B_:A_;if(!AN[X])return no("পাঠ্যস্তরের বাইরে",`${EL[mz-1]} + ${X} : ধাতু + ${cls(Z(X))=="d"?"উপধাতু":"অধাতু"}\n⇒ সাধারণ আয়নিক যৌগ নয়`,"এটি কার্বাইড/বোরাইড/সিলিসাইড জাতীয় জটিল যৌগ — পাঠ্যের বাইরে।");
+  const c={s:EL[mz-1],z:mz,a:mv},x=mkA(X);return{S:[H("আয়নিক বন্ধন হবে ✔",`${c.s} (ধাতু) + ${X} (অধাতু)\n⇒ ইলেকট্রন আদান-প্রদান → আয়নিক বন্ধন`,"ধাতু ইলেকট্রন ত্যাগ করে, অধাতু গ্রহণ করে।","ধাতু + অধাতু = আয়নিক বন্ধন"),...stI2(c,x)],sc:n=>scI2(c,x,Math.max(0,n-1))}}
+ const M=mol2(A_,va,B_,vb);if(!M){const g=gcd(va,vb);return no("সমযোজী — জটিল গঠন",`${A_}${sb(vb/g)}${B_}${sb(va/g)} (সংখ্যাগত সংকেত)\n⇒ অধাতু-অধাতু : সমযোজী বন্ধন`,A_==B_?`${A_} একক সরল অণু গড়ে না (জালক/চক্রাকার গঠন)।`:"দুই দিকেই একাধিক পরমাণু — গঠন চিত্র পাঠ্যের বাইরে। বাস্তবে সব সংখ্যাগত সংকেত স্থিতিশীল নাও হতে পারে।")}
+ const S=stC(M);const ex=M.a.some((u,i)=>M.b.filter(k=>k[0]==i||k[1]==i).reduce((s,k)=>s+k[2],0)>(u.s=="H"?2:8)-CV[u.s][0]);if(ex)S[1].c+=" এখানে বেশি যোজনী ব্যবহৃত হয়েছে: শেষ কক্ষের জোড়া ভেঙে (উত্তেজিত অবস্থা) আরও ইলেকট্রন শেয়ার হয়।";
+ return{S:[H("সমযোজী বন্ধন হবে ✔",`${A_} (অধাতু/উপধাতু) + ${B_} (অধাতু/উপধাতু)\n⇒ ইলেকট্রন শেয়ার → সমযোজী বন্ধন`+((A_=="C"&&va==2)||(B_=="C"&&vb==2)?"\n(C-এর ২ যোজনী বাস্তবে CO-এ; সেখানে C≡O ত্রি-বন্ধন)":""),"অধাতু-অধাতু বন্ধনে ইলেকট্রন আদান-প্রদান নয়, শেয়ার হয়।","অধাতু + অধাতু = সমযোজী বন্ধন"),...S,rlC(M)],sc:n=>scC2(M,Math.max(0,n-1))}}
+const IPS=[["Na",0,"Cl"],["Mg",0,"O"],["Ca",0,"CO₃"],["Ca",0,"OH"],["NH₄",0,"SO₄"],["Al",0,"SO₄"],["Fe",1,"Cl"],["Cu",1,"O"],["K",0,"MnO₄"]];
+Object.assign(sel,{cm:"Na",vi:0,xm:"Cl",pa:11,pai:0,pb:17,pbi:0,vz:16,vv:0,l:"Na"});
+const eo=(k,cur)=>`<select data-k="${k}">${EL.map((e,i)=>`<option value="${i+1}"${cur==i+1?" selected":""}>${i+1}. ${e}</option>`).join("")}</select>`,vo=(k,z,cur)=>`<select data-k="${k}">${VL[z-1].map((v,i)=>`<option value="${i}"${cur==i?" selected":""}>${v}</option>`).join("")}</select>`;
+const MINE=t=>`<button class="mine" style="pointer-events:none">✏️ নিজে করো — ${t}</button>`;
+TABS[2]={tab:"আয়নিক বন্ধন",sum:()=>`<b>ঘটনাটা কী?</b> ধাতু (বা NH₄⁺) ইলেকট্রন ত্যাগ করে ক্যাটায়ন, অধাতু বা যৌগমূলক (CO₃²⁻, SO₄²⁻ ...) ইলেকট্রন নিয়ে অ্যানায়ন হয়; স্থির বৈদ্যুতিক আকর্ষণই আয়নিক বন্ধন। একাধিক যোজনীর ধাতুর (Fe, Cu ...) যোজনীও বদলে দেখো।`,
+ steps:()=>stI2(mkC(sel.cm,sel.vi),mkA(sel.xm)),scene:()=>scI2(mkC(sel.cm,sel.vi),mkA(sel.xm),n),
+ ctl:()=>MINE("ক্যাটায়ন ও অ্যানায়ন বাছো")+`<div class="cust">${sel_("ক্যাটায়ন",catO,"cm")}<label>যোজনী${sel.cm=="NH₄"?"<select disabled><option>১</option></select>":vo("vi",Z(sel.cm),sel.vi)}</label>${sel_("অ্যানায়ন / যৌগমূলক",anO,"xm")}</div>`+IPS.map((p,i)=>`<button data-k="ip" data-v="${i}">${fI2(mkC(p[0],p[1]),mkA(p[2])).f}</button>`).join(""),
+ extra:()=>`<details class="card ex" open><summary>যৌগমূলক ও আধান</summary><p style="font-size:.95rem;margin:6px 0 0"><b>ক্যাটায়ন :</b> NH₄⁺<br><b>অ্যানায়ন :</b> ${PY.map(p=>p[0]+ch(p[1],"⁻")).join(" , ")}</p></details>`+CMP};
+TABS[0].ctl=()=>MINE("১–৬০ থেকে মৌল বাছো")+`<div class="cust"><label>মৌল${eo("o",+sel.o)}</label></div>`;
+TABS[1].ctl=()=>MINE("মৌল বাছো")+`<div class="cust">${sel_("মৌল",DU,"l2")}</div>`;
+TABS[3].ctl=()=>MINE("কেন্দ্রীয় ও পার্শ্ব পরমাণু (সাধারণ যোজনী)")+`<div class="cust">${sel_("কেন্দ্রীয়",["C","N","O","Si","P","S","B","Ge","As","Se","Sb","Te"],"X")}${sel_("পার্শ্ব",["H","F","Cl","Br","I"],"Y")}</div>`+sl("c",PC,sel.c,v=>v[0]);
+TABS[3].scene=()=>scC2(curM(),n);
+TABS[4].ctl=()=>MINE("১–৬০-এর যেকোনো ধাতু")+`<div class="cust">${sel_("ধাতু",MET,"l")}</div>`;
+const prac=()=>PR(+sel.pa,VL[sel.pa-1][Math.min(+sel.pai,VL[sel.pa-1].length-1)],+sel.pb,VL[sel.pb-1][Math.min(+sel.pbi,VL[sel.pb-1].length-1)]);
+TABS.push({tab:"বন্ধন প্র্যাক্টিস",sum:()=>`<b>নিয়ম :</b> ধাতু + অধাতু = আয়নিক · অধাতু + অধাতু = সমযোজী · ধাতু + ধাতু = ধাতব (সংকর) · নিষ্ক্রিয় গ্যাস = বন্ধন নয়। ১–৬০ থেকে যেকোনো দুটি মৌল ও যোজনী বেছে দেখো বন্ধন হবে কি না এবং কীভাবে। (N-এর ৫ যোজনী, S-এর ৪/৬ ইত্যাদি একাধিক যোজনী ড্রপডাউনে আছে।)`,steps:()=>prac().S,scene:()=>prac().sc(n),
+ ctl:()=>MINE("দুটি মৌল বাছো")+`<div class="cust"><label>মৌল ১${eo("pa",+sel.pa)}</label><label>যোজনী${vo("pai",+sel.pa,sel.pai)}</label><label>মৌল ২${eo("pb",+sel.pb)}</label><label>যোজনী${vo("pbi",+sel.pb,sel.pbi)}</label></div>`,extra:()=>CMP});
+function partner(z,a){if(nobl(z))return null;if(cls(z)=="m")return a<=3?[17,1]:[8,2];const q=nv(EL[z-1]);if(z==1)return[17,1];if(z==5)return[9,1];if(z==6&&a==2)return null;if(a==q)return[1,1];if((z==7&&a==5)||(z==17&&a==7)||(z==35&&a==7))return[8,2];return[9,1]}
+function val(){const z=+sel.vz,vl=VL[z-1],a=vl[Math.min(+sel.vv,vl.length-1)],y=EL[z-1],s=sh(z),p=partner(z,a),w=cls(z),
+ ov={t:"যোজনী কত?",m:`${y} (${z}) → ${s.join(", ")}\nসর্বশেষ কক্ষে ${s.at(-1)}টি ইলেকট্রন\nযোজনী = ${vl.join(", ")}${vl.length>1?"   (একাধিক)":""}`,c:nobl(z)?"যোজনী ০ — শেষ কক্ষ আগেই পূর্ণ, তাই বন্ধন করে না।":w=="m"?`ধাতু ইলেকট্রন ত্যাগ করে; যতটি ত্যাগ করে সেটিই যোজনী।${MULT(z)}`:`অধাতু সাধারণত ${nv(y)}টি বন্ধন গড়ে (8 − শেষ কক্ষ, বা শেষ কক্ষ ≤৪ হলে তত)।${MULT(z)}`,y:"যোজনী মানে একটি পরমাণু কয়টি ইলেকট্রন ত্যাগ, গ্রহণ বা শেয়ার করে।",st:`${y} : যোজনী ${vl.join(", ")}`};
+ if(!p){const R=nobl(z)?null:PR(z,a,17,1);return{S:[ov],sc:()=>A(210,150,s,{c:OR,l:y})+mk(`যোজনী ${vl.join(", ")}`,210,285,13)}}
+ const R=PR(z,a,p[0],p[1]),ex={t:"উদাহরণ যৌগ",m:`${y} (যোজনী ${a}) + ${EL[p[0]-1]} (যোজনী ${p[1]}) → দেখো ধাপগুলো`,c:"নিচের ধাপগুলোতে এই যোজনীতে বন্ধন গঠন ও কে কোন নিয়ম মানে তা দেখো।"+(z==7&&a==5?" (N-এর ৫ যোজনী N₂O₅/HNO₃-এ; NF₅ বাস্তবে নেই।)":""),y:"যোজনী বদলালে যৌগও বদলায়।",st:`${y} (${a}) এর বন্ধন`};
+ return{S:[ov,ex,...R.S],sc:n=>n==0?A(210,150,s,{c:OR,l:y})+mk(`যোজনী ${vl.join(", ")}`,210,285,13):R.sc(Math.max(0,n-2))}}
+TABS.push({tab:"যোজনী",sum:()=>`<b>যোজনী :</b> একটি পরমাণু কয়টি ইলেকট্রন ত্যাগ/গ্রহণ/শেয়ার করে তার সংখ্যা। ১–৬০ থেকে মৌল বাছো; একাধিক যোজনী থাকলে বাটনে বেছে দেখো কোন যোজনীতে কোন যৌগ হয়, বন্ধন কীভাবে গঠিত হয় এবং কে অষ্টক বা দুইয়ের নিয়ম মানে।`,steps:()=>val().S,scene:()=>val().sc(n),
+ ctl:()=>MINE("মৌল ও যোজনী")+`<div class="cust"><label>মৌল${eo("vz",+sel.vz)}</label></div>`+(VL[sel.vz-1].length>1?sl("vv",VL[sel.vz-1],sel.vv,v=>"যোজনী "+v):""),extra:()=>CMP});
+DS.push(...[["CaCO₃",0,"Ca²⁺","CO₃²⁻","ক্যালসিয়াম কার্বোনেট (মার্বেল)"],["BaSO₄",0,"Ba²⁺","SO₄²⁻","বেরিয়াম সালফেট"],["Fe(OH)₃",0,"Fe³⁺","OH⁻","আয়রন(III) হাইড্রক্সাইড"],["NaOH",1,"Na⁺","OH⁻","কষ্টিক সোডা"],["KNO₃",1,"K⁺","NO₃⁻","পটাশিয়াম নাইট্রেট"],["(NH₄)₂SO₄",1,"NH₄⁺","SO₄²⁻","অ্যামোনিয়াম সালফেট"],["CuSO₄",1,"Cu²⁺","SO₄²⁻","কপার সালফেট"]].map(([n,s,c,a,nm])=>({n,k:"i",s,c,a,nm})));
+
 let k=0,n=0;
 function render(){const T=TABS[k],S=T.steps(),p=$("panel");n=Math.min(n,S.length-1);
  $("tabs").innerHTML=TABS.map((t,i)=>`<button class="${i==k?"on":""}" data-i="${i}">${bn(i+1)}. ${t.tab}</button>`).join("");
@@ -260,6 +367,9 @@ $("ctl").onchange=e=>{const s=e.target.closest("select");if(!s)return;sel[s.data
 addEventListener("keydown",e=>{if(e.target.tagName=="SELECT")return;if(e.key=="ArrowRight"||e.key==" "){e.preventDefault();go(1)}if(e.key=="ArrowLeft")go(-1)});
 if(typeof ResizeObserver!="undefined"){const sk=document.querySelector(".stick");new ResizeObserver(()=>document.documentElement.style.setProperty("--stick-h",sk.offsetHeight+"px")).observe(sk)}
 if(matchMedia("(max-width:820px)").matches)document.querySelector("details.how").open=false;
+
+$("ctl").onclick=e=>{const b=e.target.closest("button");if(!b||b.dataset.k==null)return;const q=b.dataset.k,v=b.dataset.v;if(q=="ip"){const t=IPS[v];sel.cm=t[0];sel.vi=t[1];sel.xm=t[2]}else if(["c","d","o","vv"].includes(q))sel[q]=+v;else sel[q]=v;n=0;render()};
+$("ctl").onchange=e=>{const s=e.target.closest("select");if(!s)return;const q=s.dataset.k;sel[q]=q=="o"?+s.value:s.value;if(q=="X"||q=="Y")sel.c=PC.length;if(q=="cm")sel.vi=0;if(q=="pa")sel.pai=0;if(q=="pb")sel.pbi=0;if(q=="vz")sel.vv=0;n=0;render()};
 render();
 </script>
 </body>
